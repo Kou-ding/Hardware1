@@ -1,0 +1,48 @@
+% Document class and two-column conversion
+\documentclass{report}
+% dimensions of paper and relative text positioning
+\usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+% math symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+% package for including URLs
+\usepackage{url}
+% Required for including images
+\usepackage{graphicx}
+\usepackage{float} % Required for specifying the exact location of a figure
+
+% enable writing in greek
+\usepackage[greek,english]{babel}
+\usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{0pt} % Removes all indentation from paragraphs
+
+% Start of the document
+\begin{document}
+
+% Set the language to greek
+\selectlanguage{greek}
+
+% Title page
+\title{\Huge \bfseries Τεχνικές Βελτιστοποίησης \\ \selectlanguage{english}Project 2024\selectlanguage{greek}} %\Huge and \bfseries are used to make the title bigger and bold
+\author{Παπαδάκης Κωνσταντίνος Φώτιος\vspace{0.5cm} \\  ΑΕΜ:10371} % \vspace{0.5cm} is used to add some vertical space between the author and the AEM
+\date{\today}
+% prints the title, author and date on a separate page
+\maketitle
+
+\section*{Άσκηση 1}
+\input{exercise1.tex}
+
+\section*{Άσκηση 2}
+\input{exercise2.tex}
+
+\section*{Άσκηση 3}
+\input{exercise3.tex}
+
+\section*{Άσκηση 4}
+\input{exercise4.tex}
+
+\section*{Άσκηση 5}
+\input{exercise5.tex}
+
+\end{document}
