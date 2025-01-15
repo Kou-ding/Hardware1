@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module tb_alu();
+module alu_tb();
 
     // Inputs
     reg [31:0] op1;
