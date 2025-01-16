@@ -1,14 +1,13 @@
-`timescale 1ns / 1ps
+`timescale 1ns/1ps
 
-module calc_tb();
-
+module calc_tb;
     reg clk;
     reg btnc, btnl, btnu, btnr, btnd;
     reg [15:0] sw;
     wire [15:0] led;
 
-    // Instantiate calc
-    calc uut (
+    // Instantiate the calculator
+    calc u_calc (
         .clk(clk),
         .btnc(btnc),
         .btnl(btnl),
@@ -19,58 +18,82 @@ module calc_tb();
         .led(led)
     );
 
-    // Ρολόι
-    initial clk = 0;
-    always #5 clk = ~clk; // Περίοδος 10 ns
+    // Clock generation
+    always #5 clk = ~clk; // 10ns period (100 MHz)
 
     initial begin
-        // Αρχικοποίηση
-        btnc = 0; btnl = 0; btnu = 0; btnr = 0; btnd = 0; sw = 16'b0;
+        // Display waveforms
+        $dumpfile("dump.vcd"); $dumpvars;
 
-        $display("Ξεκινάει το Testbench...");
+        // Initialize inputs
+        clk = 0;
+        btnc = 0; btnl = 0; btnu = 0; btnr = 0; btnd = 0;
+        sw = 16'b0;
 
-        // Reset
-        #10 btnu = 1; #10 btnu = 0;
-        if (led !== 16'h0000) $display("Test FAILED: Reset!");
+        // Simulation sequence
+        $display("Starting testbench...");
+        
+        // Reset the calculator
+        btnu = 1;
+        #10; btnu = 0;
+        if (led !== 16'h0000) $display("Error: Reset test failed!");
+        else $display("Reset test passed!");
 
-        // ADD
-        #10 btnc = 1; sw = 16'h354a; btnd = 1; #10 btnd = 0; btnc = 0;
-        if (led !== 16'h354a) $display("Test FAILED: ADD!");
+        // Test addition
+        sw = 16'h354A; btnc = 1; btnd = 1;
+        #10; btnd = 0; btnc = 0;
+        if (led !== 16'h354A) $display("Error: Addition test failed!");
+        else $display("Addition test passed!");
 
-        // SUB
-        #10 btnc = 1; btnr = 1; sw = 16'h1234; btnd = 1; #10 btnd = 0; btnc = 0; btnr = 0;
-        if (led !== 16'h2316) $display("Test FAILED: SUB!");
+        // Test subtraction
+        sw = 16'h1234; btnc = 1; btnr = 1; btnd = 1;
+        #10; btnd = 0; btnc = 0; btnr = 0;
+        if (led !== 16'h2316) $display("Error: Subtraction test failed!");
+        else $display("Subtraction test passed!");
 
-        // OR
-        #10 btnr = 1; sw = 16'h1001; btnd = 1; #10 btnd = 0; btnr = 0;
-        if (led !== 16'h3317) $display("Test FAILED: OR!");
+        // Test OR
+        sw = 16'h1001; btnr = 1; btnd = 1;
+        #10; btnd = 0; btnr = 0;
+        if (led !== 16'h3317) $display("Error: OR test failed!");
+        else $display("OR test passed!");
 
-        // AND
-        #10 sw = 16'hf0f0; btnd = 1; #10 btnd = 0;
-        if (led !== 16'h3010) $display("Test FAILED: AND!");
+        // Test AND
+        sw = 16'hF0F0; btnd = 0; btnd = 1;
+        #10; btnd = 0;
+        if (led !== 16'h3010) $display("Error: AND test failed!");
+        else $display("AND test passed!");
 
-        // XOR
-        #10 btnl = 1; btnr = 1; btnc = 1; sw = 16'h1fa2; btnd = 1; #10 btnd = 0; btnl = 0; btnr = 0; btnc = 0;
-        if (led !== 16'h2fb2) $display("Test FAILED: XOR!");
+        // Test XOR
+        sw = 16'h1FA2; btnl = 1; btnc = 1; btnr = 1; btnd = 1;
+        #10; btnd = 0; btnl = 0; btnc = 0; btnr = 0;
+        if (led !== 16'h2FB2) $display("Error: XOR test failed!");
+        else $display("XOR test passed!");
 
-        // ADD
-        #10 btnc = 1; sw = 16'h6aa2; btnd = 1; #10 btnd = 0; btnc = 0;
-        if (led !== 16'h9a54) $display("Test FAILED: ADD!");
+        // Test addition
+        sw = 16'h6AA2; btnc = 1; btnd = 1;
+        #10; btnd = 0; btnc = 0;
+        if (led !== 16'h9A54) $display("Error: Addition test failed!");
+        else $display("Addition test passed!");
 
-        // Logical Shift Left
-        #10 btnl = 1; btnr = 1; sw = 16'h0004; btnd = 1; #10 btnd = 0; btnl = 0; btnr = 0;
-        if (led !== 16'ha540) $display("Test FAILED: LSL!");
+        // Test Logical Shift Left
+        sw = 16'h0004; btnl = 1; btnr = 1; btnd = 1;
+        #10; btnd = 0; btnl = 0; btnr = 0;
+        if (led !== 16'hA540) $display("Error: Logical Shift Left test failed!");
+        else $display("Logical Shift Left test passed!");
 
-        // Arithmetic Shift Right
-        #10 btnl = 1; btnc = 1; sw = 16'h0001; btnd = 1; #10 btnd = 0; btnl = 0; btnc = 0;
-        if (led !== 16'hd2a0) $display("Test FAILED: ASR!");
+        // Test Arithmetic Shift Right
+        sw = 16'h0001; btnl = 1; btnc = 1; btnd = 1;
+        #10; btnd = 0; btnl = 0; btnc = 0;
+        if (led !== 16'hD2A0) $display("Error: Arithmetic Shift Right test failed!");
+        else $display("Arithmetic Shift Right test passed!");
 
-        // Less Than
-        #10 btnl = 1; sw = 16'h46ff; btnd = 1; #10 btnd = 0; btnl = 0;
-        if (led !== 16'h0001) $display("Test FAILED: LT!");
+        // Test Less Than
+        sw = 16'h46FF; btnl = 1; btnd = 1;
+        #10; btnd = 0; btnl = 0;
+        if (led !== 16'h0001) $display("Error: Less Than test failed!");
+        else $display("Less Than test passed!");
 
-        $display("Όλα τα τεστ ολοκληρώθηκαν!");
+        $display("Testbench completed!");
         $finish;
     end
-
 endmodule
