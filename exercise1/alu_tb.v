@@ -11,7 +11,7 @@ module alu_tb();
     wire zero;
     wire [31:0] result;
 
-    // Instantiate the ALU module
+    // Instantiate the ALU module with port mapping
     alu uut (
         .op1(op1),
         .op2(op2),

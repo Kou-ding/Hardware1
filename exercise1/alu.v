@@ -12,9 +12,9 @@ module alu (
     parameter [3:0] ALUOP_ADD   = 4'b0010; // Addition
     parameter [3:0] ALUOP_SUB   = 4'b0110; // Subtraction
     parameter [3:0] ALUOP_SLT   = 4'b0100; // Signed Less Than
-    parameter [3:0] ALUOP_SRL   = 4'b1000; // Logical Shift Right
-    parameter [3:0] ALUOP_SLL   = 4'b1001; // Logical Shift Left
-    parameter [3:0] ALUOP_SRA   = 4'b1010; // Arithmetic Shift Right
+    parameter [3:0] ALUOP_SRL   = 4'b1000; // Shift Right Logical
+    parameter [3:0] ALUOP_SLL   = 4'b1001; // Shift Left Logical
+    parameter [3:0] ALUOP_SRA   = 4'b1010; // Shift Right Arithmetic
     parameter [3:0] ALUOP_XOR   = 4'b0101; // Exclusive OR
 
     always @(*) begin
@@ -26,7 +26,7 @@ module alu (
             ALUOP_SLT:   result = ($signed(op1) < $signed(op2)) ? 1 : 0; // Signed Less Than
             ALUOP_SRL:   result = op1 >> op2[4:0]; // Logical Shift Right
             ALUOP_SLL:   result = op1 << op2[4:0]; // Logical Shift Left
-            ALUOP_SRA:   result = $signed(op1) >>> op2[4:0]; // Arithmetic Shift Right
+            ALUOP_SRA:   result = $unsigned($signed(op1) >>> op2[4:0]); // Arithmetic Shift Right
             ALUOP_XOR:   result = op1 ^ op2; // Exclusive OR
             default:     result = 32'b0; // Default case (should not occur)
         endcase
@@ -37,5 +37,4 @@ module alu (
         else
             zero = 0;
     end
-
 endmodule
