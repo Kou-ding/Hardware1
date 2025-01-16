@@ -3,23 +3,23 @@
 `include "calc_enc.v"
 
 module calc(
-    input clk,             // Clock: Ρολόι
-    input btnc,            // Center Button: Κεντρικό πλήκτρο
-    input btnl,            // Left Button: Αριστερό πλήκτρο
-    input btnu,            // Up Button: Πλήκτρο μηδενισμού
-    input btnr,            // Right Button: Δεξί πλήκτρο
-    input btnd,            // Down Button: Πλήκτρο ενημέρωσης
-    input [15:0] sw,       // Switch: Διακόπτες (εισαγωγή δεδομένων)
-    output [15:0] led      // LED: Έξοδοι LED (τιμή συσσωρευτή)
+    input clk,             // Clock
+    input btnc,            // Center Button
+    input btnl,            // Left Button
+    input btnu,            // Up Button - Reset
+    input btnr,            // Right Button
+    input btnd,            // Down Button - Sync
+    input [15:0] sw,       // Switch
+    output [15:0] led      // LED 
 );
 
     // Signals
-    reg [15:0] accumulator;           // Accumulator: Συσσωρευτής
-    wire [31:0] extended_accumulator; // Sign-extended Accumulator: Επέκταση προσήμου του συσσωρευτή
-    wire [31:0] extended_sw;          // Sign-extended Switch: Επέκταση προσήμου των διακοπτών
-    wire [31:0] result;               // Alu Result: Αποτέλεσμα της ALU
-    reg [3:0] alu_op;                 // Alu Επιλογέας λειτουργίας ALU
-    wire zero;                        // Σημαία μηδενικού της ALU
+    reg [15:0] accumulator;           // Accumulator
+    wire [31:0] extended_accumulator; // Sign-extended Accumulator
+    wire [31:0] extended_sw;          // Sign-extended Switch
+    wire [31:0] result;               // Alu Result
+    reg [3:0] alu_op;                 // Alu operator 
+    wire zero;                        // Alu zero flag
 
     // Sign extension of the accumulator and the switch
     assign extended_accumulator = {{16{accumulator[15]}}, accumulator};
