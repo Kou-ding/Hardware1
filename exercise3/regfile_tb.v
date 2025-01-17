@@ -1,4 +1,3 @@
-
 `timescale 1ns / 1ps
 
 module regfile_tb();
@@ -12,7 +11,7 @@ module regfile_tb();
     wire [DATAWIDTH-1:0] readData1, readData2;
 
     // Instantiate the regfile module
-    regfile #(DATAWIDTH) uut (
+    regfile #(DATAWIDTH) u_regfile (
         .clk(clk),
         .readReg1(readReg1),
         .readReg2(readReg2),
