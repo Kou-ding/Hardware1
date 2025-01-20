@@ -1,6 +1,22 @@
 # Hardware1
 The project for the university course "Hardware Digital systems at low logic levels 1".
 
+
+### Arch linux - iverilog and gtkwave
+Packages installation:
+```bash
+sudo pacman -S iverilog gtkwave
+```
+Example code compilation/execution:
+```bash
+iverilog calc.v calc_tb.v -o out
+./out # produces the dump.vcd file
+```
+Example waveform simulation:
+```bash
+gtkwave dump.vcd
+```
+
 ### Questa Setup
 Include the license file and the binary folder of Questa inside PATH.
 ```bash 
