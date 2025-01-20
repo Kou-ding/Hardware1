@@ -9,8 +9,14 @@ sudo pacman -S iverilog gtkwave
 ```
 Example code compilation/execution:
 ```bash
+# Compilation
 iverilog calc.v calc_tb.v -o out
-./out # produces the dump.vcd file
+
+# Execution
+./out 
+# or
+vvp out
+# produces the dump.vcd file
 ```
 Example waveform simulation:
 ```bash
