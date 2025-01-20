@@ -18,7 +18,7 @@ module calc(
     wire [31:0] extended_accumulator; // Sign-extended Accumulator
     wire [31:0] extended_sw;          // Sign-extended Switch
     wire [31:0] result;               // Alu Result
-    reg [3:0] alu_op;                 // Alu operator 
+    wire [3:0] alu_op;                 // Alu operator 
     wire zero;                        // Alu zero flag
 
     // Sign extension of the accumulator and the switch
